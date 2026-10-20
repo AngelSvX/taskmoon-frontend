@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import { getAllWorkspaces } from "../model/thunks"
 import WorkspaceArticle from "./WorkspaceArticle"
 import CreateWorkspaceButton from "./CreateWorkspaceButton"
-import CreateWorkspaceModal from "./CreateWorkspaceModal"
+import WorkspaceModal from "./WorkspaceModal"
 
 export default function WorkspaceList() {
 
@@ -36,13 +36,18 @@ export default function WorkspaceList() {
     ))
 
     if (view === 'list') {
-        return <div className="space-y-2.5">{items}</div>
+        return (
+            <>
+                <WorkspaceModal />
+                <div className="space-y-2.5">{items}</div>
+            </>
+        )
     }
 
     return (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <CreateWorkspaceButton />
-            <CreateWorkspaceModal />
+            <WorkspaceModal />
             {items}
 
             {workspaces.length === 0 && (

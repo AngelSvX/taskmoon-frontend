@@ -130,6 +130,12 @@ export const Icon = {
       <path d="M10 11v6M14 11v6" />
     </Base>
   ),
+  Pencil: (p: SVGProps<SVGSVGElement>) => (
+    <Base {...p}>
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7.5 18.5 3.5 19.5l1-4 12-12Z" />
+      <path d="m14.5 5.5 3 3" />
+    </Base>
+  ),
   Copy: (p: SVGProps<SVGSVGElement>) => (
     <Base {...p}>
       <rect x="8.5" y="8.5" width="12" height="12" rx="2" />

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { adminApi } from "../api";
-import { CreateWorkspaceRequest } from "../api/types";
+import { CreateWorkspaceRequest, UpdateWorkspaceRequest } from "../api/types";
 import { Workspace } from "./types";
 
 export const createWorkspace = createAsyncThunk(
@@ -16,6 +16,14 @@ export const getAllWorkspaces = createAsyncThunk(
     async (owner_id: number): Promise<Workspace[]> => {
         const response = await adminApi.getAllByOwnerId(owner_id)
         return response.data
+    }
+)
+
+export const updateWorkspaceBySlug = createAsyncThunk(
+    'admin/updateWorkspaceBySlug',
+    async ({ slug, owner_id, request }: { slug: string, owner_id: number, request: UpdateWorkspaceRequest }, { dispatch }): Promise<void> => {
+        await adminApi.updateBySlug(slug, request)
+        dispatch(getAllWorkspaces(owner_id))
     }
 )
 

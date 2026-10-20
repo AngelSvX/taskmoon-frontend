@@ -6,21 +6,28 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useForm, useWatch } from "react-hook-form";
-import { CreateWorkspaceRequest } from "../api/types";
+import { UpdateWorkspaceRequest } from "../api/types";
 import { WORKSPACE_ICONS, getWorkspaceIcon } from "../config/workspace-icons";
-import { closeCreateWorkspaceModal } from "../model/slice";
-import { createWorkspace } from "../model/thunks";
+import { closeWorkspaceModal } from "../model/slice";
+import { createWorkspace, updateWorkspaceBySlug } from "../model/thunks";
 
-type CreateWorkspaceForm = Omit<CreateWorkspaceRequest, "owner_id">;
+type WorkspaceForm = UpdateWorkspaceRequest;
 
 const NAME_MAX = 40;
 const DESCRIPTION_MAX = 160;
 
+const DEFAULT_VALUES: WorkspaceForm = {
+    name: "",
+    description: "",
+    icon: "one"
+}
+
 const inputClass =
     'w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-60'
 
-export default function CreateWorkspaceModal() {
-    const open = useAppSelector((s) => s.admin.createWorkspaceModalOpen);
+export default function WorkspaceModal() {
+    const open = useAppSelector((s) => s.admin.workspaceModalOpen);
+    const editingWorkspace = useAppSelector((s) => s.admin.editingWorkspace);
     const loading = useAppSelector((s) => s.admin.loading);
     const error = useAppSelector((s) => s.admin.error);
 
@@ -35,22 +42,32 @@ export default function CreateWorkspaceModal() {
         setValue,
         reset,
         formState: { errors }
-    } = useForm<CreateWorkspaceForm>({
-        defaultValues: {
-            name: "",
-            description: "",
-            icon: "one"
-        }
+    } = useForm<WorkspaceForm>({
+        defaultValues: DEFAULT_VALUES
     })
+
+    const isEditing = editingWorkspace !== null;
 
     const name = useWatch({ control, name: "name" });
     const description = useWatch({ control, name: "description" });
     const selectedIcon = getWorkspaceIcon(useWatch({ control, name: "icon" }));
 
     const close = () => {
-        dispatch(closeCreateWorkspaceModal());
-        reset();
+        dispatch(closeWorkspaceModal());
+        reset(DEFAULT_VALUES);
     }
+
+    useEffect(() => {
+        if (!open) return;
+        reset(editingWorkspace
+            ? {
+                name: editingWorkspace.name,
+                description: editingWorkspace.description ?? "",
+                icon: getWorkspaceIcon(editingWorkspace.icon).key
+            }
+            : DEFAULT_VALUES
+        );
+    }, [open, editingWorkspace, reset]);
 
     useEffect(() => {
         if (!open) return;
@@ -65,13 +82,25 @@ export default function CreateWorkspaceModal() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
-    const onSubmit = (data: CreateWorkspaceForm) => {
-        dispatch(createWorkspace({
-            owner_id: userData!.id,
-            name: data.name,
-            description: data.description,
-            icon: data.icon
-        }))
+    const onSubmit = (data: WorkspaceForm) => {
+        if (isEditing) {
+            dispatch(updateWorkspaceBySlug({
+                slug: editingWorkspace.slug,
+                owner_id: editingWorkspace.owner_id,
+                request: {
+                    name: data.name,
+                    description: data.description,
+                    icon: data.icon
+                }
+            }))
+        } else {
+            dispatch(createWorkspace({
+                owner_id: userData!.id,
+                name: data.name,
+                description: data.description,
+                icon: data.icon
+            }))
+        }
         close()
     }
 
@@ -85,7 +114,7 @@ export default function CreateWorkspaceModal() {
             <div
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby="create-workspace-title"
+                aria-labelledby="workspace-modal-title"
                 onClick={(e) => e.stopPropagation()}
                 className="animate-modal-in relative w-full max-w-3xl overflow-hidden rounded-3xl border border-white/10 bg-[#0b0c14] shadow-2xl shadow-black/60"
             >
@@ -95,17 +124,19 @@ export default function CreateWorkspaceModal() {
                 <div className="relative flex items-start justify-between gap-4 border-b border-white/10 px-6 py-5 sm:px-8">
                     <div>
                         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-brand-200">
-                            <Icon.Sparkle className="size-3.5" />
-                            Nuevo proyecto
+                            {isEditing ? <Icon.Pencil className="size-3.5" /> : <Icon.Sparkle className="size-3.5" />}
+                            {isEditing ? "Editar proyecto" : "Nuevo proyecto"}
                         </span>
                         <h2
-                            id="create-workspace-title"
+                            id="workspace-modal-title"
                             className="mt-3 text-xl font-semibold tracking-tight text-white"
                         >
-                            Crea tu espacio de trabajo
+                            {isEditing ? "Edita tu espacio de trabajo" : "Crea tu espacio de trabajo"}
                         </h2>
                         <p className="mt-1 text-sm text-zinc-400">
-                            Dale un nombre, una descripción y un ícono que lo identifique.
+                            {isEditing
+                                ? "Actualiza el nombre, la descripción o el ícono de tu proyecto."
+                                : "Dale un nombre, una descripción y un ícono que lo identifique."}
                         </p>
                     </div>
                     <button
@@ -286,8 +317,17 @@ export default function CreateWorkspaceModal() {
                             disabled={loading}
                             className="group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-black transition-transform hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
                         >
-                            <Icon.Plus className="size-4 transition-transform group-hover:rotate-90" />
-                            {loading ? "Creando…" : "Crear proyecto"}
+                            {isEditing ? (
+                                <>
+                                    <Icon.Check className="size-4" />
+                                    {loading ? "Guardando…" : "Guardar cambios"}
+                                </>
+                            ) : (
+                                <>
+                                    <Icon.Plus className="size-4 transition-transform group-hover:rotate-90" />
+                                    {loading ? "Creando…" : "Crear proyecto"}
+                                </>
+                            )}
                         </button>
                     </div>
                 </form>

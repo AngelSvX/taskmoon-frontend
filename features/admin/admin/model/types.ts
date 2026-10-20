@@ -7,7 +7,8 @@ export interface AdminState {
     successMessage: string | null;
     loading: boolean;
     error: string | null;
-    createWorkspaceModalOpen: boolean;
+    workspaceModalOpen: boolean;
+    editingWorkspace: Workspace | null;
     workspaceList: Workspace[] | null;
     view: 'grid' | 'list';
     query: string;

@@ -5,8 +5,10 @@ import { useState } from "react";
 import { Workspace } from "../model/types";
 import { useAppDispatch } from "@/app/_store/hooks";
 import { deleteWorkspaceBySlug } from "../model/thunks";
+import { openEditWorkspaceModal } from "../model/slice";
 
 const MENU_ITEMS = [
+    { key: "edit", label: "Editar", icon: Icon.Pencil },
     { key: "settings", label: "Configurar", icon: Icon.Settings },
     { key: "duplicate", label: "Duplicar", icon: Icon.Copy },
     { key: "archive", label: "Archivar", icon: Icon.Archive },
@@ -16,7 +18,14 @@ export default function WorkspaceMenu(workspace: Workspace) {
 
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
-    
+
+    const handleItemClick = (key: typeof MENU_ITEMS[number]["key"]) => {
+        if (key === "edit") {
+            dispatch(openEditWorkspaceModal(workspace))
+        }
+        setOpen(false)
+    }
+
     return (
         <div className="relative">
             <button
@@ -37,6 +46,7 @@ export default function WorkspaceMenu(workspace: Workspace) {
                             <button
                                 key={item.key}
                                 type="button"
+                                onClick={() => handleItemClick(item.key)}
                                 className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm text-zinc-300 transition-colors hover:bg-white/5 hover:text-white"
                             >
                                 <item.icon className="size-4 text-zinc-500" />

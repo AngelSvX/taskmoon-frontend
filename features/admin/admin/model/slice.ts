@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createWorkspace, deleteWorkspaceBySlug, getAllWorkspaces } from "./thunks";
-import { AdminState, WorkspaceFilter } from "./types";
+import { createWorkspace, deleteWorkspaceBySlug, getAllWorkspaces, updateWorkspaceBySlug } from "./thunks";
+import { AdminState, Workspace, WorkspaceFilter } from "./types";
 
 export const initialState: AdminState = {
     workspaceData: null,
     successMessage: null,
     loading: false,
     error: null,
-    createWorkspaceModalOpen: false,
+    workspaceModalOpen: false,
+    editingWorkspace: null,
     workspaceList: null,
     view: 'grid',
     query: '',
@@ -19,10 +20,16 @@ export const adminSlice = createSlice({
     initialState,
     reducers: {
         openCreateWorkspaceModal: (state) => {
-            state.createWorkspaceModalOpen = true;
+            state.editingWorkspace = null;
+            state.workspaceModalOpen = true;
         },
-        closeCreateWorkspaceModal: (state) => {
-            state.createWorkspaceModalOpen = false;
+        openEditWorkspaceModal: (state, action: PayloadAction<Workspace>) => {
+            state.editingWorkspace = action.payload;
+            state.workspaceModalOpen = true;
+        },
+        closeWorkspaceModal: (state) => {
+            state.workspaceModalOpen = false;
+            state.editingWorkspace = null;
         },
         changeToGrid: (state) => {
             if (state.view === "grid") return;
@@ -66,6 +73,18 @@ export const adminSlice = createSlice({
                     (state.error = "Un error ocurrió al obtener los espacios de trabajo, inténtelo de nuevo más tarde.")
             })
         builder
+            .addCase(updateWorkspaceBySlug.pending, (state) => {
+                (state.error = null),
+                    (state.loading = true)
+            })
+            .addCase(updateWorkspaceBySlug.fulfilled, (state) => {
+                (state.loading = false)
+            })
+            .addCase(updateWorkspaceBySlug.rejected, (state) => {
+                (state.loading = false),
+                    (state.error = "Un error ocurrió al actualizar el espacio de trabajo, inténtelo de nuevo más tarde.")
+            })
+        builder
             .addCase(deleteWorkspaceBySlug.pending, (state) => {
                 (state.error = null),
                     (state.loading = true)
@@ -80,5 +99,5 @@ export const adminSlice = createSlice({
     }
 })
 
-export const { closeCreateWorkspaceModal, openCreateWorkspaceModal, changeToGrid, changeToList, setQuery, setFilter } = adminSlice.actions
+export const { closeWorkspaceModal, openCreateWorkspaceModal, openEditWorkspaceModal, changeToGrid, changeToList, setQuery, setFilter } = adminSlice.actions
 export default adminSlice.reducer

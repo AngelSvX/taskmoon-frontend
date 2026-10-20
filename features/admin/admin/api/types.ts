@@ -4,3 +4,5 @@ export interface CreateWorkspaceRequest {
     description: string,
     icon: string
 }
+
+export type UpdateWorkspaceRequest = Omit<CreateWorkspaceRequest, "owner_id">

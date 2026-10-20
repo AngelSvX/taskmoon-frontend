@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CreateWorkspaceRequest } from "./types"
+import { CreateWorkspaceRequest, UpdateWorkspaceRequest } from "./types"
 
 const API_URL = 'http://localhost:3100/workspace'
 
@@ -8,6 +8,11 @@ export const adminApi = {
     getAllByOwnerId: (owner_id: number) => axios.get(`${API_URL}/`, {
         params: {
             owner_id: owner_id
+        }
+    }),
+    updateBySlug: (slug: string, request: UpdateWorkspaceRequest) => axios.put(`${API_URL}/`, request, {
+        params: {
+            slug: slug
         }
     }),
     deleteBySlug: (slug: string) => axios.delete(`${API_URL}/`, {
