@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { RegisterRequest } from '../api/types'
 import { clearData } from '../model/slice'
 import { fetchRegister } from '../model/thunks'
+import { Alert, FieldError, Label } from '@/shared/ui'
 
 const inputClass =
     'w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder:text-zinc-500 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-60'
@@ -45,12 +46,9 @@ export default function RegisterForm() {
             noValidate
         >
             <div className="space-y-2">
-                <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-zinc-300"
-                >
+                <Label htmlFor="username">
                     Nombre de usuario
-                </label>
+                </Label>
 
                 <input
                     id="username"
@@ -71,18 +69,13 @@ export default function RegisterForm() {
                         },
                     })}
                 />
-                {errors.username && (
-                    <p className="text-sm text-red-400">{errors.username.message}</p>
-                )}
+                <FieldError>{errors.username?.message}</FieldError>
             </div>
 
             <div className="space-y-2">
-                <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-zinc-300"
-                >
+                <Label htmlFor="email">
                     Email
-                </label>
+                </Label>
 
                 <input
                     id="email"
@@ -101,18 +94,13 @@ export default function RegisterForm() {
                     })}
                 />
 
-                {errors.email && (
-                    <p className="text-sm text-red-400">{errors.email.message}</p>
-                )}
+                <FieldError>{errors.email?.message}</FieldError>
             </div>
 
             <div className="space-y-2">
-                <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-zinc-300"
-                >
+                <Label htmlFor="password">
                     Contraseña
-                </label>
+                </Label>
 
                 <input
                     id="password"
@@ -140,22 +128,12 @@ export default function RegisterForm() {
                     })}
                 />
 
-                {errors.password && (
-                    <p className="text-sm text-red-400">{errors.password.message}</p>
-                )}
+                <FieldError>{errors.password?.message}</FieldError>
             </div>
 
-            {error && (
-                <p className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">
-                    {error}
-                </p>
-            )}
+            <Alert variant="error">{error}</Alert>
 
-            {successMessage && (
-                <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-300">
-                    {successMessage}
-                </p>
-            )}
+            <Alert variant="success">{successMessage}</Alert>
 
             <button
                 type="submit"

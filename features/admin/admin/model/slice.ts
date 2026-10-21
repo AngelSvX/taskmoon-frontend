@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createWorkspace, deleteWorkspaceBySlug, getAllWorkspaces, updateWorkspaceBySlug } from "./thunks";
+import { activeWorkspaceBySlug, archiveWorkspaceBySlug, createWorkspace, deleteWorkspaceBySlug, getAllWorkspaces, updateWorkspaceBySlug } from "./thunks";
 import { AdminState, Workspace, WorkspaceFilter } from "./types";
 
 export const initialState: AdminState = {
@@ -95,6 +95,30 @@ export const adminSlice = createSlice({
             .addCase(deleteWorkspaceBySlug.rejected, (state) => {
                 (state.loading = false),
                     (state.error = "Un error ocurrió al eliminar el espacio de trabajo, inténtelo de nuevo más tarde.")
+            })
+        builder
+            .addCase(archiveWorkspaceBySlug.pending, (state) => {
+                (state.error = null),
+                    (state.loading = true)
+            })
+            .addCase(archiveWorkspaceBySlug.fulfilled, (state) => {
+                (state.loading = false)
+            })
+            .addCase(archiveWorkspaceBySlug.rejected, (state) => {
+                (state.loading = false),
+                    (state.error = "Un error ocurrió al archivar el espacio de trabajo, inténtelo de nuevo más tarde.")
+            })
+        builder
+            .addCase(activeWorkspaceBySlug.pending, (state) => {
+                (state.error = null),
+                    (state.loading = true)
+            })
+            .addCase(activeWorkspaceBySlug.fulfilled, (state) => {
+                (state.loading = false)
+            })
+            .addCase(activeWorkspaceBySlug.rejected, (state) => {
+                (state.loading = false),
+                    (state.error = "Un error ocurrió al activar el espacio de trabajo, inténtelo de nuevo más tarde.")
             })
     }
 })

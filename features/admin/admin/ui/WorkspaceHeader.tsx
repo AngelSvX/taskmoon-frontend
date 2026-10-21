@@ -2,6 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/_store/hooks"
 import { Icon } from "@/app/components/icons"
+import { Heading } from "@/shared/ui"
 import { changeToGrid, changeToList, setFilter, setQuery } from "../model/slice"
 import { WorkspaceFilter } from "../model/types"
 
@@ -18,9 +19,9 @@ export default function WorkspaceHeader() {
 
     return (
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-xl font-semibold tracking-tight text-white">
+            <Heading as="h2" size="section">
                 Tus proyectos
-            </h2>
+            </Heading>
 
             <div className="flex flex-wrap items-center gap-2.5">
                 <div className="relative">

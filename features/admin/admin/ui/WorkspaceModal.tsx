@@ -2,6 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/_store/hooks";
 import { Icon } from "@/app/components/icons";
+import { Alert, FieldError, Heading, Label, Text } from "@/shared/ui";
 import Image from "next/image";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -127,17 +128,19 @@ export default function WorkspaceModal() {
                             {isEditing ? <Icon.Pencil className="size-3.5" /> : <Icon.Sparkle className="size-3.5" />}
                             {isEditing ? "Editar proyecto" : "Nuevo proyecto"}
                         </span>
-                        <h2
+                        <Heading
+                            as="h2"
+                            size="section"
                             id="workspace-modal-title"
-                            className="mt-3 text-xl font-semibold tracking-tight text-white"
+                            className="mt-3"
                         >
                             {isEditing ? "Edita tu espacio de trabajo" : "Crea tu espacio de trabajo"}
-                        </h2>
-                        <p className="mt-1 text-sm text-zinc-400">
+                        </Heading>
+                        <Text className="mt-1">
                             {isEditing
                                 ? "Actualiza el nombre, la descripción o el ícono de tu proyecto."
                                 : "Dale un nombre, una descripción y un ícono que lo identifique."}
-                        </p>
+                        </Text>
                     </div>
                     <button
                         type="button"
@@ -157,9 +160,9 @@ export default function WorkspaceModal() {
                     <div className="grid gap-8 px-6 py-6 sm:px-8 md:grid-cols-[1fr_17rem]">
                         <div className="space-y-5">
                             <fieldset className="space-y-2.5">
-                                <legend className="mb-2.5 block text-sm font-medium text-zinc-300">
+                                <Label as="legend" className="mb-2.5">
                                     Ícono
-                                </legend>
+                                </Label>
                                 <input type="hidden" {...register("icon", { required: true })} />
                                 <div className="grid grid-cols-4 gap-2.5">
                                     {WORKSPACE_ICONS.map((ic) => {
@@ -195,12 +198,12 @@ export default function WorkspaceModal() {
 
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <label htmlFor="ws-name" className="block text-sm font-medium text-zinc-300">
+                                    <Label htmlFor="ws-name">
                                         Nombre
-                                    </label>
-                                    <span className="text-[11px] text-zinc-500">
+                                    </Label>
+                                    <Text as="span" variant="tiny">
                                         {name.length}/{NAME_MAX}
-                                    </span>
+                                    </Text>
                                 </div>
                                 <input
                                     id="ws-name"
@@ -217,19 +220,17 @@ export default function WorkspaceModal() {
                                         maxLength: { value: NAME_MAX, message: `Máximo ${NAME_MAX} caracteres` },
                                     })}
                                 />
-                                {errors.name && (
-                                    <p className="text-sm text-red-400">{errors.name.message}</p>
-                                )}
+                                <FieldError>{errors.name?.message}</FieldError>
                             </div>
 
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <label htmlFor="ws-description" className="block text-sm font-medium text-zinc-300">
+                                    <Label htmlFor="ws-description">
                                         Descripción
-                                    </label>
-                                    <span className="text-[11px] text-zinc-500">
+                                    </Label>
+                                    <Text as="span" variant="tiny">
                                         {description.length}/{DESCRIPTION_MAX}
-                                    </span>
+                                    </Text>
                                 </div>
                                 <textarea
                                     id="ws-description"
@@ -242,16 +243,14 @@ export default function WorkspaceModal() {
                                         maxLength: { value: DESCRIPTION_MAX, message: `Máximo ${DESCRIPTION_MAX} caracteres` },
                                     })}
                                 />
-                                {errors.description && (
-                                    <p className="text-sm text-red-400">{errors.description.message}</p>
-                                )}
+                                <FieldError>{errors.description?.message}</FieldError>
                             </div>
                         </div>
 
                         <div className="space-y-2.5">
-                            <span className="block text-sm font-medium text-zinc-300">
+                            <Label as="span">
                                 Vista previa
-                            </span>
+                            </Label>
                             <article className="glass relative flex min-h-[220px] flex-col rounded-2xl p-5">
                                 <div className="flex items-start justify-between">
                                     <span
@@ -265,12 +264,12 @@ export default function WorkspaceModal() {
                                     </span>
                                 </div>
 
-                                <h3 className={`mt-4 truncate text-base font-semibold ${name.trim() ? "text-white" : "text-zinc-600"}`}>
+                                <Heading as="h3" size="base" truncate className={`mt-4 ${name.trim() ? "" : "text-zinc-600"}`}>
                                     {name.trim() || "Nombre del proyecto"}
-                                </h3>
-                                <p className={`mt-1.5 line-clamp-3 break-words text-sm leading-5 ${description.trim() ? "text-zinc-400" : "text-zinc-600"}`}>
+                                </Heading>
+                                <Text className={`mt-1.5 line-clamp-3 break-words leading-5 ${description.trim() ? "" : "text-zinc-600"}`}>
                                     {description.trim() || "Aquí aparecerá la descripción de tu proyecto."}
-                                </p>
+                                </Text>
 
                                 <div className="mt-auto space-y-3 pt-5">
                                     <div>
@@ -291,17 +290,15 @@ export default function WorkspaceModal() {
                                     </div>
                                 </div>
                             </article>
-                            <p className="text-xs leading-5 text-zinc-500">
+                            <Text variant="caption" className="leading-5">
                                 Así se verá en tu lista de proyectos.
-                            </p>
+                            </Text>
                         </div>
                     </div>
 
-                    {error && (
-                        <p className="mx-6 mb-5 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300 sm:mx-8">
-                            {error}
-                        </p>
-                    )}
+                    <Alert variant="error" className="mx-6 mb-5 sm:mx-8">
+                        {error}
+                    </Alert>
 
                     <div className="flex flex-col-reverse gap-3 border-t border-white/10 bg-white/[0.015] px-6 py-4 sm:flex-row sm:justify-end sm:px-8">
                         <button

@@ -35,3 +35,19 @@ export const deleteWorkspaceBySlug = createAsyncThunk(
         dispatch(getAllWorkspaces(owner_id))
     }
 )
+
+export const archiveWorkspaceBySlug = createAsyncThunk(
+    'admin/archiveWorkspaceBySlug',
+    async ({ slug, owner_id }: { slug: string, owner_id: number }, { dispatch }): Promise<void> => {
+        await adminApi.archiveBySlug(slug)
+        dispatch(getAllWorkspaces(owner_id))
+    }
+)
+
+export const activeWorkspaceBySlug = createAsyncThunk(
+    'admin/activeWorkspaceBySlug',
+    async ({ slug, owner_id }: { slug: string, owner_id: number }, { dispatch }): Promise<void> => {
+        await adminApi.activeBySlug(slug)
+        dispatch(getAllWorkspaces(owner_id))
+    }
+)

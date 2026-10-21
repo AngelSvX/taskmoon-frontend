@@ -1,4 +1,5 @@
 import { Icon } from "@/app/components/icons";
+import { Heading, Text } from "@/shared/ui";
 import Image from "next/image";
 import { getWorkspaceIcon } from "../config/workspace-icons";
 import { Workspace } from "../model/types";
@@ -12,32 +13,32 @@ interface Props {
 export default function WorkspaceArticle({ workspace, view }: Props) {
 
     const icon = getWorkspaceIcon(workspace.icon);
-    const archived = workspace.status === "archivado";
+    const archived = workspace.status === "archived";
     const updated = new Date(workspace.updated_at).toLocaleDateString();
 
     if (view === 'list') {
         return (
             <div
-                className={`glass flex flex-col gap-4 rounded-xl p-4 transition-colors hover:bg-white/[0.05] sm:flex-row sm:items-center ${archived ? "opacity-70" : ""}`}
+                className={`glass relative flex flex-col gap-4 has-[[data-open=true]]:z-50 rounded-xl p-4 transition-colors hover:bg-white/[0.05] sm:flex-row sm:items-center ${archived ? "opacity-70" : ""}`}
             >
                 <div className="flex flex-1 items-center gap-3.5">
                     <span className={`grid size-10 shrink-0 place-items-center rounded-lg border border-white/10 bg-gradient-to-br to-transparent ${icon.tint}`}>
                         <Image src={icon.src} alt="" className="size-5" />
                     </span>
                     <div className="min-w-0">
-                        <h3 className="truncate text-sm font-semibold text-white">
+                        <Heading as="h3" size="sm" truncate>
                             {workspace.name}
-                        </h3>
-                        <p className="truncate text-xs text-zinc-500">
+                        </Heading>
+                        <Text variant="caption" truncate>
                             {workspace.description}
-                        </p>
+                        </Text>
                     </div>
                 </div>
 
                 <div className="flex shrink-0 items-center gap-4">
-                    <span className="hidden w-20 text-[11px] text-zinc-500 md:block">
+                    <Text as="span" variant="tiny" className="hidden w-20 md:block">
                         {archived ? "Archivado" : updated}
-                    </span>
+                    </Text>
                     <WorkspaceMenu {...workspace} />
                 </div>
             </div>
@@ -46,7 +47,7 @@ export default function WorkspaceArticle({ workspace, view }: Props) {
 
     return (
         <article
-            className={`glass card-glow relative flex min-h-[220px] flex-col rounded-2xl p-5 transition-colors hover:bg-white/[0.05] ${archived ? "opacity-70" : ""}`}
+            className={`glass card-glow relative has-[[data-open=true]]:z-50 flex min-h-[220px] flex-col rounded-2xl p-5 transition-colors hover:bg-white/[0.05] ${archived ? "opacity-70" : ""}`}
         >
             <div className="flex items-start justify-between">
                 <span className={`grid size-11 place-items-center rounded-xl border border-white/10 bg-gradient-to-br to-transparent ${icon.tint}`}>
@@ -55,15 +56,15 @@ export default function WorkspaceArticle({ workspace, view }: Props) {
                 <WorkspaceMenu {...workspace} />
             </div>
 
-            <h3 className="mt-4 text-base font-semibold text-white">
+            <Heading as="h3" size="base" className="mt-4">
                 {workspace.name}
-            </h3>
-            <p className="mt-1.5 line-clamp-2 text-sm leading-5 text-zinc-400">
+            </Heading>
+            <Text className="mt-1.5 line-clamp-2 leading-5">
                 {workspace.description}
-            </p>
+            </Text>
 
             <div className="mt-auto flex items-center justify-end pt-5">
-                <span className="flex items-center gap-1 text-[11px] text-zinc-500">
+                <Text as="span" variant="tiny" className="flex items-center gap-1">
                     {archived ? (
                         <>
                             <Icon.Archive className="size-3.5" />
@@ -75,7 +76,7 @@ export default function WorkspaceArticle({ workspace, view }: Props) {
                             {updated}
                         </>
                     )}
-                </span>
+                </Text>
             </div>
         </article>
     );

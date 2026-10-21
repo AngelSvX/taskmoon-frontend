@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { LoginRequest } from "../api/types"
 import { clearData } from "../model/slice"
 import { fetchLogin } from "../model/thunks"
+import { Alert, FieldError, Label } from "@/shared/ui"
 import { redirect } from "next/navigation"
 
 const inputClass =
@@ -48,12 +49,9 @@ export default function LoginForm() {
                         noValidate
                     >
                         <div className="space-y-2">
-                            <label
-                                htmlFor="email"
-                                className="block text-sm font-medium text-zinc-300"
-                            >
+                            <Label htmlFor="email">
                                 Email
-                            </label>
+                            </Label>
 
                             <input
                                 id="email"
@@ -72,18 +70,13 @@ export default function LoginForm() {
                                 })}
                             />
 
-                            {errors.email && (
-                                <p className="text-sm text-red-400">{errors.email.message}</p>
-                            )}
+                            <FieldError>{errors.email?.message}</FieldError>
                         </div>
 
                         <div className="space-y-2">
-                            <label
-                                htmlFor="password"
-                                className="block text-sm font-medium text-zinc-300"
-                            >
+                            <Label htmlFor="password">
                                 Contraseña
-                            </label>
+                            </Label>
 
                             <input
                                 id="password"
@@ -111,22 +104,12 @@ export default function LoginForm() {
                                 })}
                             />
 
-                            {errors.password && (
-                                <p className="text-sm text-red-400">{errors.password.message}</p>
-                            )}
+                            <FieldError>{errors.password?.message}</FieldError>
                         </div>
 
-                        {error && (
-                            <p className="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-300">
-                                {error}
-                            </p>
-                        )}
+                        <Alert variant="error">{error}</Alert>
 
-                        {successMessage && (
-                            <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-300">
-                                {successMessage}
-                            </p>
-                        )}
+                        <Alert variant="success">{successMessage}</Alert>
 
                         <button
                             type="submit"

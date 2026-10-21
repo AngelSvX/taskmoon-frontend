@@ -3,6 +3,7 @@ import { SiteHeader } from "./components/site-header";
 import { Reveal } from "./components/reveal";
 import { Logo } from "./components/logo";
 import { Icon, Stars } from "./components/icons";
+import { Heading, Text } from "@/shared/ui";
 
 export const metadata: Metadata = {
   title: "taskmoon — Gestiona tus tareas mientras el mundo duerme",
@@ -184,19 +185,19 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={80}>
-              <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-6xl">
+              <Heading as="h1" size="hero" className="mt-6">
                 Gestiona tus tareas
                 <br className="hidden sm:block" />{" "}
                 <span className="text-gradient">mientras el mundo duerme</span>
-              </h1>
+              </Heading>
             </Reveal>
 
             <Reveal delay={160}>
-              <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-7 text-zinc-400 sm:text-lg">
+              <Text variant="lead" className="mx-auto mt-6 max-w-xl">
                 taskmoon reúne tus proyectos, automatizaciones y un modo enfoque
                 sin distracciones en un solo lugar oscuro y silencioso. Para
                 terminar el día con la mente en calma.
-              </p>
+              </Text>
             </Reveal>
 
             <Reveal delay={240}>
@@ -218,10 +219,10 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={320}>
-              <p className="mt-5 text-xs text-zinc-500">
+              <Text variant="caption" className="mt-5">
                 Sin tarjeta de crédito · Plan gratuito para siempre · Cancela
                 cuando quieras
-              </p>
+              </Text>
             </Reveal>
           </div>
 
@@ -318,9 +319,9 @@ export default function Home() {
         </section>
 
         <section className="border-y border-white/5 bg-white/[0.015] py-8">
-          <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-zinc-600">
+          <Text variant="eyebrow" align="center" className="mb-6 tracking-widest text-zinc-600">
             Equipos que planifican de noche con taskmoon
-          </p>
+          </Text>
           <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]">
             <div className="animate-marquee flex w-max gap-14 pr-14">
               {[...MARQUEE, ...MARQUEE].map((name, i) => (
@@ -347,7 +348,7 @@ export default function Home() {
                   <div className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
                     {s.k}
                   </div>
-                  <div className="mt-1.5 text-sm text-zinc-400">{s.v}</div>
+                  <Text as="div" className="mt-1.5">{s.v}</Text>
                 </div>
               </Reveal>
             ))}
@@ -364,13 +365,13 @@ export default function Home() {
                 <Icon.Sparkle className="size-3.5" />
                 Funciones
               </span>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              <Heading as="h2" size="page" className="mt-4">
                 Todo lo que necesitas, nada que te estorbe
-              </h2>
-              <p className="mt-4 text-pretty text-zinc-400">
+              </Heading>
+              <Text variant="intro" className="mt-4">
                 Cada función está pensada para reducir decisiones, no para
                 sumarte pantallas.
-              </p>
+              </Text>
             </div>
           </Reveal>
 
@@ -381,10 +382,10 @@ export default function Home() {
                   <div className="grid size-11 place-items-center rounded-xl border border-white/10 bg-gradient-to-br from-brand-500/25 to-transparent text-brand-200">
                     <f.icon className="size-5" />
                   </div>
-                  <h3 className="mt-5 text-lg font-semibold text-white">
+                  <Heading as="h3" size="card" className="mt-5">
                     {f.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-zinc-400">{f.body}</p>
+                  </Heading>
+                  <Text className="mt-2 leading-6">{f.body}</Text>
                 </article>
               </Reveal>
             ))}
@@ -400,9 +401,9 @@ export default function Home() {
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-brand-200">
                 Cómo funciona
               </span>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              <Heading as="h2" size="page" className="mt-4">
                 De la nube mental a la calma en tres pasos
-              </h2>
+              </Heading>
             </div>
           </Reveal>
 
@@ -413,12 +414,12 @@ export default function Home() {
                   <span className="text-sm font-mono text-brand-400">
                     {step.n}
                   </span>
-                  <h3 className="mt-3 text-xl font-semibold text-white">
+                  <Heading as="h3" size="section" className="mt-3 tracking-normal">
                     {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-zinc-400">
+                  </Heading>
+                  <Text className="mt-2 leading-6">
                     {step.body}
-                  </p>
+                  </Text>
                   {i < STEPS.length - 1 && (
                     <Icon.Arrow className="absolute -right-3 top-1/2 hidden size-6 -translate-y-1/2 text-white/15 md:block" />
                   )}
@@ -436,14 +437,14 @@ export default function Home() {
                   <Icon.Focus className="size-3.5" />
                   Modo enfoque
                 </span>
-                <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                <Heading as="h2" size="page" className="mt-4">
                   Una tarea. Cero ruido.
-                </h2>
-                <p className="mt-4 text-zinc-400">
+                </Heading>
+                <Text variant="intro" className="mt-4">
                   taskmoon oscurece todo lo demás, silencia las notificaciones y
                   arranca un temporizador. Cuando terminas el bloque, pasa
                   automáticamente a lo siguiente en tu plan del día.
-                </p>
+                </Text>
                 <ul className="mt-6 space-y-3">
                   {[
                     "Temporizador Pomodoro y descansos guiados",
@@ -515,9 +516,9 @@ export default function Home() {
           <Reveal>
             <div className="mx-auto max-w-2xl text-center">
               <Stars className="justify-center" />
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              <Heading as="h2" size="page" className="mt-4">
                 Gente que ya duerme más tranquila
-              </h2>
+              </Heading>
             </div>
           </Reveal>
 
@@ -526,9 +527,9 @@ export default function Home() {
               <Reveal key={t.name} delay={i * 100}>
                 <figure className="glass card-glow flex h-full flex-col rounded-2xl p-6">
                   <Stars />
-                  <blockquote className="mt-4 flex-1 text-sm leading-6 text-zinc-200">
+                  <Text as="blockquote" variant="emphasis" className="mt-4 flex-1 leading-6 text-zinc-200">
                     “{t.quote}”
-                  </blockquote>
+                  </Text>
                   <figcaption className="mt-6 flex items-center gap-3">
                     <span className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-aurora/60 text-xs font-semibold text-black">
                       {t.name
@@ -560,13 +561,13 @@ export default function Home() {
               <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-brand-200">
                 Precios
               </span>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              <Heading as="h2" size="page" className="mt-4">
                 Un plan para cada fase de tu órbita
-              </h2>
-              <p className="mt-4 text-zinc-400">
+              </Heading>
+              <Text variant="intro" className="mt-4">
                 Precios por usuario y mes, facturación anual. Cambia o cancela
                 cuando quieras.
-              </p>
+              </Text>
             </div>
           </Reveal>
 
@@ -585,10 +586,10 @@ export default function Home() {
                       Más elegido
                     </span>
                   )}
-                  <h3 className="text-lg font-semibold text-white">
+                  <Heading as="h3" size="card">
                     {plan.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-zinc-400">{plan.tagline}</p>
+                  </Heading>
+                  <Text className="mt-1">{plan.tagline}</Text>
                   <div className="mt-5 flex items-baseline gap-1">
                     <span className="text-4xl font-semibold tracking-tight text-white">
                       {plan.price}€
@@ -622,10 +623,10 @@ export default function Home() {
           </div>
 
           <Reveal>
-            <p className="mt-8 flex items-center justify-center gap-2 text-center text-xs text-zinc-500">
+            <Text variant="caption" align="center" className="mt-8 flex items-center justify-center gap-2">
               <Icon.Shield className="size-4" />
               Garantía de devolución de 30 días. Datos alojados en la UE.
-            </p>
+            </Text>
           </Reveal>
         </section>
 
@@ -635,9 +636,9 @@ export default function Home() {
           className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 py-16 sm:px-8 sm:py-24"
         >
           <Reveal>
-            <h2 className="text-center text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <Heading as="h2" size="page" align="center">
               Preguntas frecuentes
-            </h2>
+            </Heading>
           </Reveal>
           <div className="mt-12 divide-y divide-white/10 border-y border-white/10">
             {FAQ.map((item, i) => (
@@ -647,9 +648,9 @@ export default function Home() {
                     {item.q}
                     <Icon.Plus className="size-5 shrink-0 text-zinc-500 transition-transform group-open:rotate-45" />
                   </summary>
-                  <p className="mt-3 text-sm leading-6 text-zinc-400">
+                  <Text className="mt-3 leading-6">
                     {item.a}
-                  </p>
+                  </Text>
                 </details>
               </Reveal>
             ))}
@@ -661,13 +662,13 @@ export default function Home() {
             <div className="card-glow relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-600/20 via-[#0b0d16] to-[#0b0d16] p-10 text-center sm:p-16">
               <div className="animate-drift absolute -top-24 left-1/2 size-72 -translate-x-1/2 rounded-full bg-brand-500/30 blur-[100px]" />
               <div className="relative">
-                <h2 className="mx-auto max-w-xl text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                <Heading as="h2" size="page" className="mx-auto max-w-xl text-balance">
                   Esta noche, cierra el día con todo en su sitio
-                </h2>
-                <p className="mx-auto mt-4 max-w-md text-zinc-400">
+                </Heading>
+                <Text variant="intro" className="mx-auto mt-4 max-w-md">
                   Crea tu cuenta gratis en menos de un minuto. Sin tarjeta, sin
                   compromiso.
-                </p>
+                </Text>
                 <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                   <a
                     href="#login"
@@ -694,10 +695,10 @@ export default function Home() {
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div className="max-w-xs">
               <Logo />
-              <p className="mt-4 text-sm leading-6 text-zinc-500">
+              <Text variant="muted" className="mt-4 leading-6">
                 El planificador con enfoque nocturno para equipos y personas que
                 quieren avanzar sin ruido.
-              </p>
+              </Text>
             </div>
 
             {[
@@ -715,7 +716,7 @@ export default function Home() {
               },
             ].map((col) => (
               <div key={col.title}>
-                <h3 className="text-sm font-semibold text-white">{col.title}</h3>
+                <Heading as="h3" size="sm">{col.title}</Heading>
                 <ul className="mt-4 space-y-2.5">
                   {col.links.map((link) => (
                     <li key={link}>

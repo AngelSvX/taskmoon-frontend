@@ -1,6 +1,7 @@
 import LoginForm from "@/features/auth/login/ui/LoginForm";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Heading, Text } from "@/shared/ui";
 
 export const metadata: Metadata = {
     title: "Inicia sesión — taskmoon",
@@ -10,17 +11,17 @@ export default function LoginPage() {
     return (
         <div className="glass card-glow w-full max-w-md rounded-2xl p-7 sm:p-9">
             <div className="text-center">
-                <h1 className="text-2xl font-semibold tracking-tight text-white">
+                <Heading as="h1" size="title">
                     Inicia sesión
-                </h1>
-                <p className="mt-2 text-sm text-zinc-400">
+                </Heading>
+                <Text className="mt-2">
                     Bienvenido de nuevo. Introduce tu correo electrónico para continuar.
-                </p>
+                </Text>
             </div>
 
             <LoginForm />
 
-            <p className="mt-6 text-center text-sm text-zinc-500">
+            <Text variant="muted" align="center" className="mt-6">
                 ¿No tienes cuenta?
                 <Link
                     href="/register"
@@ -28,7 +29,7 @@ export default function LoginPage() {
                 >
                     Regístrate
                 </Link>
-            </p>
+            </Text>
         </div>
     );
 }

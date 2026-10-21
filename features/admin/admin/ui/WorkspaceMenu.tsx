@@ -4,7 +4,7 @@ import { Icon } from "@/app/components/icons";
 import { useState } from "react";
 import { Workspace } from "../model/types";
 import { useAppDispatch } from "@/app/_store/hooks";
-import { deleteWorkspaceBySlug } from "../model/thunks";
+import { activeWorkspaceBySlug, archiveWorkspaceBySlug, deleteWorkspaceBySlug } from "../model/thunks";
 import { openEditWorkspaceModal } from "../model/slice";
 
 const MENU_ITEMS = [
@@ -19,15 +19,21 @@ export default function WorkspaceMenu(workspace: Workspace) {
     const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
 
+    const archived = workspace.status === "archived";
+
     const handleItemClick = (key: typeof MENU_ITEMS[number]["key"]) => {
         if (key === "edit") {
             dispatch(openEditWorkspaceModal(workspace))
+        }
+        if (key === "archive") {
+            const params = { slug: workspace.slug, owner_id: workspace.owner_id }
+            dispatch(archived ? activeWorkspaceBySlug(params) : archiveWorkspaceBySlug(params))
         }
         setOpen(false)
     }
 
     return (
-        <div className="relative">
+        <div className="relative" data-open={open}>
             <button
                 type="button"
                 onClick={() => setOpen(!open)}
@@ -50,7 +56,7 @@ export default function WorkspaceMenu(workspace: Workspace) {
                                 className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm text-zinc-300 transition-colors hover:bg-white/5 hover:text-white"
                             >
                                 <item.icon className="size-4 text-zinc-500" />
-                                {item.label}
+                                {item.key === "archive" && archived ? "Activar" : item.label}
                             </button>
                         ))}
                         <div className="my-1 h-px bg-white/10" />

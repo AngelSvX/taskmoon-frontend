@@ -19,5 +19,15 @@ export const adminApi = {
         params: {
             slug: slug
         }
+    }),
+    archiveBySlug: (slug: string) => axios.put(`${API_URL}/archive`, null, {
+        params: {
+            slug: slug
+        }
+    }),
+    activeBySlug: (slug: string) => axios.put(`${API_URL}/active`, null, {
+        params: {
+            slug: slug
+        }
     })
 }

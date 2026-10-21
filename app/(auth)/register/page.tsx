@@ -1,5 +1,6 @@
 import RegisterForm from "@/features/auth/register/ui/RegisterForm";
 import type { Metadata } from "next";
+import { Heading, Text } from "@/shared/ui";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -10,22 +11,22 @@ export default function RegisterPage() {
   return (
     <div className="glass card-glow w-full max-w-md rounded-2xl p-7 sm:p-9">
       <div className="text-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-white">
+        <Heading as="h1" size="title">
           Crea tu cuenta
-        </h1>
-        <p className="mt-2 text-sm text-zinc-400">
+        </Heading>
+        <Text className="mt-2">
           Empieza a organizar tus noches con taskmoon. Es gratis.
-        </p>
+        </Text>
       </div>
 
       <RegisterForm />
 
-      <p className="mt-6 text-center text-sm text-zinc-500">
+      <Text variant="muted" align="center" className="mt-6">
         ¿Ya tienes cuenta?
         <Link href="/login" className="font-medium text-brand-300 hover:text-brand-200">
           Inicia sesión
         </Link>
-      </p>
+      </Text>
     </div>
   );
 }
