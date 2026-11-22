@@ -1,11 +1,12 @@
 "use client";
 
-import { useAppSelector } from "@/app/_store/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/_store/hooks";
 import { Icon } from "@/app/components/icons";
 import { ACTIVITY } from "@/entities/admin/types/dummy";
+import { openCreateWorkspaceModal } from "@/features/admin/admin/model/slice";
 import WorkspaceHeader from "@/features/admin/admin/ui/WorkspaceHeader";
 import WorkspaceList from "@/features/admin/admin/ui/WorkspaceList";
-import { AvatarGroup, Badge, Button, Heading, Progress, StatCard, Text, Timeline, type TimelineEvent } from "@/shared/ui";
+import { AvatarGroup, Badge, Button, Heading, Progress, StatCard, Text, Timeline } from "@/shared/ui";
 
 const TEMPLATES = [
   {
@@ -38,6 +39,8 @@ export default function AdminPage() {
   const projectsUsed = workspaceList?.filter((w) => w.status === "active").length ?? 0;
   const projectsLimit = 3;
 
+  const dispatch = useAppDispatch();
+
   return (
     <div className="space-y-14">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -59,7 +62,7 @@ export default function AdminPage() {
           <Button variant="secondary">
             Importar
           </Button>
-          <Button variant="primary">
+          <Button variant="primary" onClick={() => dispatch(openCreateWorkspaceModal())}>
             <Icon.Plus className="transition-transform group-hover:rotate-90" />
             Nuevo Proyecto
           </Button>
@@ -158,13 +161,13 @@ export default function AdminPage() {
             Invita a personas para colaborar en tus proyectos.
           </Text>
           <AvatarGroup users={[
-            { name: "Luis Angel"},
-            { name: "Maria Elena"},
-            { name: "David Hernandez"},
-            { name: "Sofia Martinez"},
-          ]}/>
+            { name: "Luis Angel" },
+            { name: "Maria Elena" },
+            { name: "David Hernandez" },
+            { name: "Sofia Martinez" },
+          ]} />
           <Button variant="secondary" className="mt-4">
-            <Icon.UserPlus/>
+            <Icon.UserPlus />
             Invitar personas
           </Button>
         </div>
